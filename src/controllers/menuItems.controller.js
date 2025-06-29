@@ -1,6 +1,6 @@
 import MenuItemDTO from "../dto/MenuItem.dto.js";
 import { menuItemsService } from "../services/index.js";
-import __dirname from "../utils/index.js";
+
 
 const getAllMenuItems = async (req, res) => {
   const items = await menuItemsService.getAll();
@@ -35,13 +35,16 @@ const createMenuItemWithImage = async (req, res) => {
   const { name, description, price, category } = req.body;
   if (!name || !price || !category)
     return res.status(400).send({ status: "error", error: "Incomplete values" });
+  
+  // FIX: Guardar la ruta web, no la ruta del sistema de archivos.
+  const imageUrl = `/img/menu-items/${file.filename}`;
 
   const menuItemDTO = MenuItemDTO.getMenuItemInputFrom({
     name,
     description,
     price,
     category,
-    image: `${__dirname}/../public/img/menu-items/${file.filename}`,
+    image: imageUrl,
   });
   const result = await menuItemsService.create(menuItemDTO);
   res.send({ status: "success", payload: result });

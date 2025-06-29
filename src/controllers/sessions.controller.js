@@ -2,15 +2,12 @@ import jwt from "jsonwebtoken";
 import { usersService } from "../services/index.js";
 import { createHash, passwordValidation } from "../utils/index.js";
 import UserDTO from "../dto/User.dto.js";
-const SECRET = "tokenSecretJWT";
+import config from "../config/config.js"; 
+
+const SECRET = config.JWT_SECRET_KEY; 
 const ALGORITHM = "HS256";
+
 export const generateToken = (payload, expiresIn = "1h") => {
-return jwt.sign(payload, SECRET, {
-algorithm: ALGORITHM,
-expiresIn,
-});
-};
-export const verifyToken = (token) => {
 try {
 return jwt.verify(token, SECRET, {
 algorithms: [ALGORITHM],

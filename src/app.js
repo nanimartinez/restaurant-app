@@ -1,6 +1,7 @@
-// src/app.js
 import express from "express";
 import cookieParser from "cookie-parser";
+import path from "path"; 
+import __dirname from "./utils/index.js"; 
 
 // Rutas importadas
 import usersRouter from "./routers/user.router.js";
@@ -25,6 +26,10 @@ app.use(cookieParser());
 app.use(logger);
 app.use(cors); 
 app.use(middLogg);
+
+// FIX: Servir archivos estáticos desde la carpeta 'public' en la raíz del proyecto
+app.use(express.static(path.join(__dirname, '..', 'public')));
+
 
 // Swagger
 setupSwagger(app);
