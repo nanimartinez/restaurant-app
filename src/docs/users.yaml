@@ -1,0 +1,154 @@
+paths:
+  /api/users:
+    get:
+      summary: Obtener todos los usuarios
+      tags:
+        - Users
+      responses:
+        "200":
+          description: Operación exitosa. Retorna un arreglo de usuarios.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  payload:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/User'
+        "500":
+          description: Error interno del servidor.
+
+  /api/users/{uid}:
+    get:
+      summary: Obtener un usuario por su ID
+      tags:
+        - Users
+      parameters:
+        - name: uid
+          in: path
+          required: true
+          description: ID del usuario a obtener
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Operación exitosa. Se retorna el usuario solicitado.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  payload:
+                    $ref: '#/components/schemas/User'
+        "404":
+          description: Usuario no encontrado.
+        "500":
+          description: Error interno del servidor.
+  
+  /api/users/{uid}/documents:
+    post:
+      summary: Subir documentos para un usuario
+      tags:
+        - Users
+      parameters:
+        - name: uid
+          in: path
+          required: true
+          description: ID del usuario para el cual se suben los documentos
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                documents:
+                  type: array
+                  items:
+                    type: string
+                    format: binary
+                  description: Uno o más archivos para subir.
+      responses:
+        "200":
+          description: Documentos subidos exitosamente.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  message:
+                    type: string
+                    example: "Documents uploaded successfully"
+        "400":
+          description: No se enviaron archivos.
+        "404":
+          description: Usuario no encontrado.
+        "500":
+          description: Error al procesar la subida de archivos.
+
+components:
+  schemas:
+    User:
+      type: object
+      properties:
+        _id:
+          type: string
+          description: ID autogenerado por MongoDB.
+          example: "647fa8c9e46dbc5a20320181"
+        first_name:
+          type: string
+          description: Nombre del usuario.
+          example: "Juan"
+        last_name:
+          type: string
+          description: Apellido del usuario.
+          example: "Pérez"
+        email:
+          type: string
+          description: Email del usuario (único).
+          example: "juan.perez@example.com"
+        role:
+          type: string
+          description: Rol del usuario (user, admin, owner).
+          example: "user"
+        orders:
+          type: array
+          description: Arreglo de IDs de los pedidos del usuario.
+          items:
+            type: string
+            example: "648f1d1d1e8a9d1b2c3d4e7b"
+        documents:
+          type: array
+          description: Documentos subidos por el usuario.
+          items:
+            type: object
+            properties:
+              name:
+                type: string
+                example: "identificacion.pdf"
+              reference:
+                type: string
+                example: "/documents/1678886400000-identificacion.pdf"
+        last_connection:
+          type: string
+          format: date-time
+
+# Las schemas de Restaurant y MenuItem se referencian aquí,
+# pero se definen en sus propios archivos para mantener el orden.
+  schemas:
+    Restaurant:
+      $ref: './restaurants.yaml#/components/schemas/Restaurant'
+    MenuItem:
+      $ref: './menuItems.yaml#/components/schemas/MenuItem'

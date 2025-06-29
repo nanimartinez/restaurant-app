@@ -1,0 +1,198 @@
+paths:
+  /api/menu-items:
+    get:
+      summary: Obtener todos los platillos del menú
+      tags:
+        - MenuItems
+      responses:
+        "200":
+          description: Lista de todos los platillos
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  payload:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/MenuItem'
+        "500":
+          description: Error interno del servidor
+
+    post:
+      summary: Crear un nuevo platillo
+      tags:
+        - MenuItems
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/NewMenuItem'
+      responses:
+        "201":
+          description: Platillo creado exitosamente
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseMenuItem'
+        "400":
+          description: Valores incompletos o incorrectos
+
+  /api/menu-items/withimage:
+    post:
+      summary: Crear un platillo con una imagen
+      tags:
+        - MenuItems
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              required:
+                - name
+                - price
+                - category
+                - menuImage
+              properties:
+                name:
+                  type: string
+                  example: "Pizza Margherita"
+                price:
+                  type: number
+                  example: 12.50
+                category:
+                  type: string
+                  enum: ["Entrada", "Plato Principal", "Postre", "Bebida"]
+                  example: "Plato Principal"
+                description:
+                  type: string
+                  example: "Pizza clásica con tomate, mozzarella y albahaca."
+                menuImage:
+                  type: string
+                  format: binary
+      responses:
+        "200":
+          description: Platillo con imagen creado exitosamente
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseMenuItem'
+        "400":
+          description: Valores incompletos
+
+  /api/menu-items/{mid}:
+    parameters:
+      - in: path
+        name: mid
+        required: true
+        schema:
+          type: string
+        description: ID del platillo a gestionar
+    
+    put:
+      summary: Actualizar un platillo existente
+      tags:
+        - MenuItems
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/NewMenuItem'
+      responses:
+        "200":
+          description: Platillo actualizado
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  message:
+                    type: string
+                    example: "Menu item updated"
+        "404":
+          description: Platillo no encontrado
+
+    delete:
+      summary: Eliminar un platillo
+      tags:
+        - MenuItems
+      responses:
+        "200":
+          description: Platillo eliminado
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  message:
+                    type: string
+                    example: "Menu item deleted"
+        "404":
+          description: Platillo no encontrado
+
+components:
+  schemas:
+    MenuItem:
+      type: object
+      properties:
+        _id:
+          type: string
+          example: "648f1c1c1e8a9d1b2c3d4e6a"
+        name:
+          type: string
+          example: "Tacos al Pastor"
+        description:
+          type: string
+          example: "Deliciosos tacos de cerdo marinado con piña."
+        price:
+          type: number
+          example: 8.99
+        category:
+          type: string
+          enum: ["Entrada", "Plato Principal", "Postre", "Bebida"]
+          example: "Plato Principal"
+        image:
+          type: string
+          example: "/public/img/menu-items/1678886400000-tacos.jpg"
+
+    NewMenuItem:
+      type: object
+      required:
+        - name
+        - price
+        - category
+      properties:
+        name:
+          type: string
+          example: "Ceviche"
+        description:
+          type: string
+          example: "Pescado fresco marinado en jugo de limón."
+        price:
+          type: number
+          example: 15.00
+        category:
+          type: string
+          enum: ["Entrada", "Plato Principal", "Postre", "Bebida"]
+          example: "Entrada"
+
+    ResponseMenuItem:
+      type: object
+      properties:
+        status:
+          type: string
+          example: success
+        payload:
+          $ref: '#/components/schemas/MenuItem'

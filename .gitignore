@@ -1,0 +1,32 @@
+# Archivos de dependencias
+# La carpeta node_modules contiene todas las librerías instaladas y puede ser muy pesada.
+# Se regenera fácilmente ejecutando `npm install`.
+node_modules/
+
+# Archivos de logs
+# Los logs son específicos de cada ejecución del servidor y no deben ser versionados.
+logs/
+*.log
+
+# Archivos de entorno
+# ¡MUY IMPORTANTE! Estos archivos contienen secretos (claves de API, contraseñas de DB).
+# NUNCA deben subirse a un repositorio público.
+.env
+.env.*
+!.env.example
+
+# Archivos generados por el sistema operativo
+.DS_Store
+Thumbs.db
+
+# Archivos de configuración de IDEs
+.idea/
+.vscode/
+*.swp
+
+# Archivos de compilación o empaquetado (si los hubiera en el futuro)
+dist/
+build/
+
+# Archivos de cobertura de tests
+coverage/
