@@ -3,11 +3,11 @@ import express from "express";
 import cookieParser from "cookie-parser";
 
 // Rutas importadas
-import usersRouter from "./routes/users.router.js";
-import menuItemsRouter from "./routes/menuItems.router.js"; 
-import ordersRouter from "./routes/orders.router.js";       
-import restaurantsRouter from "./routes/restaurants.router.js"; 
-import sessionsRouter from "./routes/sessions.router.js";
+import usersRouter from "./routers/user.router.js";
+import menuItemsRouter from "./routers/menuItem.router.js"; 
+import ordersRouter from "./routers/order.router.js";       
+import restaurantsRouter from "./routers/restaurant.router.js"; 
+import sessionsRouter from "./routers/sessions.router.js";
 
 import cors from "./config/cors.js";
 import middLogg from "./config/logger.js";

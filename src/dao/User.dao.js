@@ -1,48 +1,33 @@
-import mongoose from "mongoose";
-const collection = "Users";
-const schema = new mongoose.Schema({
-first_name: {
-type: String,
-required: true,
-},
-last_name: {
-type: String,
-required: true,
-},
-email: {
-type: String,
-required: true,
-unique: true,
-},
-password: {
-type: String,
-required: true,
-},
-role: {
-type: String,
-default: "user",
-},
-pets: {
-type: [
-{
-_id: {
-type: mongoose.SchemaTypes.ObjectId,
-ref: "Pets",
-},
-},
-],
-default: [],
-},
-documents: [
-{
-name: { type: String, required: true },
-reference: { type: String, required: true },
-},
-],
-last_connection: {
-type: Date,
-default: Date.now,
-},
-});
-const userModel = mongoose.model(collection, schema);
-export default userModel;
+import userModel from "./models/User.js"; 
+
+export default class UsersDAO {
+  get = (params) => {
+    return userModel.find(params);
+  };
+
+  getBy = (params) => {
+    return userModel.findOne(params);
+  };
+
+  save = (doc) => {
+    return userModel.create(doc);
+  };
+
+  update = (id, doc) => {
+    return userModel.findByIdAndUpdate(id, { $set: doc }, { new: true });
+  };
+
+  delete = (id) => {
+    return userModel.findByIdAndDelete(id);
+  };
+
+  // Método adicional que necesita el repositorio de usuarios
+  addDocuments = async (uid, documents) => {
+      const user = await userModel.findById(uid);
+      if (user) {
+          user.documents.push(...documents);
+          await user.save();
+      }
+      return user;
+  }
+}
