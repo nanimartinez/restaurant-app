@@ -1,0 +1,252 @@
+Restaurant API
+
+Esta es una API RESTful robusta y escalable para una aplicación de gestión de restaurantes. Permite manejar usuarios, restaurantes, menús, pedidos y autenticación, todo empaquetado en una arquitectura de software limpia y testeada. El proyecto está completamente dockerizado y listo para desplegarse.
+
+![alt text](https://img.shields.io/docker/pulls/nanimartinez/nanimartinez-restaurant-app.svg)
+
+✨ Características Principales
+
+Gestión de Usuarios: Operaciones CRUD completas para usuarios y subida de documentos.
+
+Gestión de Restaurantes: Creación, lectura, actualización y eliminación de restaurantes.
+
+Gestión de Menú: Manejo de ítems del menú, incluyendo la carga de imágenes.
+
+Sistema de Pedidos: Flujo completo para crear, visualizar y actualizar el estado de los pedidos.
+
+Autenticación y Seguridad: Registro y login basados en JSON Web Tokens (JWT) con cookies.
+
+Arquitectura por Capas: Separación de responsabilidades (Controladores, Servicios, Repositorios, DAO) para un mantenimiento sencillo y escalabilidad.
+
+Mocking de Datos: Endpoints para generar datos de prueba masivos para usuarios y restaurantes.
+
+Documentación de API: Documentación completa y funcional generada con Swagger.
+
+Logging Avanzado: Sistema de logs con Winston, con diferentes niveles y salidas para desarrollo y producción.
+
+Testing Integral: Cobertura de pruebas funcionales para todos los endpoints con Mocha, Chai y Supertest.
+
+Contenerización: Completamente dockerizado para un despliegue fácil, consistente y aislado.
+
+🛠️ Tecnologías Utilizadas
+
+Backend: Node.js, Express.js
+
+Base de Datos: MongoDB con Mongoose
+
+Autenticación: JSON Web Token (JWT), bcrypt
+
+Testing: Mocha, Chai, Supertest
+
+Contenerización: Docker, Docker Compose
+
+Documentación: Swagger (OpenAPI)
+
+Otros: Winston (logging), Faker.js (mocking), Multer (file uploads), Dotenv
+
+📂 Estructura del Proyecto
+
+El proyecto sigue una arquitectura por capas para mantener el código organizado y desacoplado:
+
+Generated code
+└── nanimartinez-restaurant-app/
+    ├── Dockerfile            # Define la imagen Docker de la aplicación.
+    ├── .dockerignore         # Especifica archivos a ignorar por Docker.
+    ├── package.json          # Dependencias y scripts del proyecto.
+    ├── server.js             # Punto de entrada del servidor.
+    ├── src/
+    │   ├── app.js            # Configuración principal de la app Express.
+    │   ├── config/           # Configuraciones (DB, logger, swagger, etc.).
+    │   ├── controllers/      # Lógica de manejo de peticiones (req, res).
+    │   ├── dao/              # Data Access Objects - Interacción directa con la DB.
+    │   ├── docs/             # Archivos YAML para la documentación Swagger.
+    │   ├── dto/              # Data Transfer Objects - Estructuras de datos limpias.
+    │   ├── repository/       # Abstracción sobre el DAO.
+    │   ├── routers/          # Definición de las rutas de la API.
+    │   ├── services/         # Lógica de negocio principal.
+    │   └── utils/            # Funciones de utilidad (hasher, uploader, etc.).
+    └── test/                 # Pruebas funcionales para los endpoints.
+
+🚀 Instalación y Puesta en Marcha
+
+Sigue estos pasos para ejecutar el proyecto en tu máquina local.
+
+Prerrequisitos
+
+Node.js (v20 o superior)
+
+npm
+
+MongoDB
+
+Docker (recomendado)
+
+1. Clonar el Repositorio
+Generated bash
+git clone <URL_DEL_REPOSITORIO>
+cd nanimartinez-restaurant-app
+IGNORE_WHEN_COPYING_START
+content_copy
+download
+Use code with caution.
+Bash
+IGNORE_WHEN_COPYING_END
+2. Instalar Dependencias
+Generated bash
+npm install
+IGNORE_WHEN_COPYING_START
+content_copy
+download
+Use code with caution.
+Bash
+IGNORE_WHEN_COPYING_END
+3. Configurar Variables de Entorno
+
+El proyecto utiliza archivos .env para gestionar las variables de entorno según el modo de ejecución (dev, prod, test). Crea los siguientes archivos en la raíz del proyecto:
+
+.env.dev (para desarrollo)
+
+Generated ini
+PORT=8080
+MONGO_URI=mongodb://localhost:27017/restaurant-dev
+JWT_SECRET_KEY=tu_clave_secreta_para_jwt
+IGNORE_WHEN_COPYING_START
+content_copy
+download
+Use code with caution.
+Ini
+IGNORE_WHEN_COPYING_END
+
+.env.test (para pruebas)
+
+Generated ini
+PORT=8081
+MONGO_URI=mongodb://localhost:27017/restaurant-test
+JWT_SECRET_KEY=tu_clave_secreta_para_testing
+IGNORE_WHEN_COPYING_START
+content_copy
+download
+Use code with caution.
+Ini
+IGNORE_WHEN_COPYING_END
+
+.env.prod (para producción)
+
+Generated ini
+PORT=8080
+MONGO_URI=mongodb+srv://<user>:<password>@<cluster-url>/restaurant-prod?retryWrites=true&w=majority
+JWT_SECRET_KEY=una_clave_mucho_mas_segura_y_larga
+IGNORE_WHEN_COPYING_START
+content_copy
+download
+Use code with caution.
+Ini
+IGNORE_WHEN_COPYING_END
+4. Ejecutar la Aplicación
+
+Puedes iniciar el servidor en diferentes modos:
+
+Modo Desarrollo (con Nodemon):
+
+Generated bash
+npm run dev
+IGNORE_WHEN_COPYING_START
+content_copy
+download
+Use code with caution.
+Bash
+IGNORE_WHEN_COPYING_END
+
+Modo Producción:
+
+Generated bash
+npm start -- --mode prod
+IGNORE_WHEN_COPYING_START
+content_copy
+download
+Use code with caution.
+Bash
+IGNORE_WHEN_COPYING_END
+🧪 Ejecutar los Tests
+
+Para correr la suite de pruebas funcionales, asegúrate de que el servidor no esté corriendo en el puerto definido en test/.env.test (8081). Luego, ejecuta:
+
+Generated bash
+# Nota: asegúrate de que tu package.json tenga un script de test adecuado
+# Ejemplo de script en package.json:
+# "test": "mocha --require test/setup.js --timeout 10000 --exit test/**/*.test.js"
+
+npm test
+IGNORE_WHEN_COPYING_START
+content_copy
+download
+Use code with caution.
+Bash
+IGNORE_WHEN_COPYING_END
+📚 Documentación de la API (Swagger)
+
+Una vez que el servidor esté en funcionamiento, puedes acceder a la documentación interactiva de la API en tu navegador:
+
+http://localhost:8080/api-docs
+
+🎭 Endpoints de Mocking
+
+Hay dos endpoints disponibles para generar datos de prueba.
+
+Generar Usuarios Falsos (sin guardar en DB):
+Retorna un JSON con 50 usuarios generados con Faker.js.
+GET /api/mocks/mockingusers
+
+Generar y Guardar Datos en la DB:
+Crea y guarda en la base de datos la cantidad de usuarios y restaurantes que especifiques como query params.
+POST /api/mocks/generateData?users=25&resto=8
+
+🐳 Uso con Docker
+
+El proyecto está completamente dockerizado, lo que facilita su despliegue y ejecución en cualquier entorno.
+
+Construir la Imagen
+
+Para construir la imagen de Docker localmente, ejecuta el siguiente comando en la raíz del proyecto:
+
+Generated bash
+docker build -t nanimartinez-restaurant-app .
+IGNORE_WHEN_COPYING_START
+content_copy
+download
+Use code with caution.
+Bash
+IGNORE_WHEN_COPYING_END
+Ejecutar desde la Imagen Local
+
+Para correr un contenedor a partir de la imagen que acabas de construir:
+
+Generated bash
+docker run -p 8080:8080 --name restaurant-container --env-file ./.env.prod -d nanimartinez-restaurant-app
+IGNORE_WHEN_COPYING_START
+content_copy
+download
+Use code with caution.
+Bash
+IGNORE_WHEN_COPYING_END
+
+-p 8080:8080: Mapea el puerto 8080 de tu máquina al puerto 8080 del contenedor.
+
+--name restaurant-container: Asigna un nombre al contenedor.
+
+--env-file ./.env.prod: Carga las variables de entorno desde tu archivo .env.prod.
+
+-d: Ejecuta el contenedor en modo "detached" (en segundo plano).
+
+Ejecutar desde Docker Hub
+
+La imagen también está disponible públicamente en Docker Hub. Puedes descargarla y ejecutarla con un solo comando:
+
+Generated bash
+docker run -p 8080:8080 --name restaurant-container --env-file ./.env.prod -d nanimartinez/nanimartinez-restaurant-app:latest
+IGNORE_WHEN_COPYING_START
+content_copy
+download
+Use code with caution.
+Bash
+IGNORE_WHEN_COPYING_END
