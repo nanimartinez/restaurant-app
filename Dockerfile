@@ -54,19 +54,3 @@ USER node
 # Comando para iniciar la aplicación en modo producción.
 CMD ["node", "server.js", "--mode", "prod"]```
 
-**Cambios Clave en este Dockerfile (y por qué funcionan):**
-
-1.  **SE ELIMINÓ LA LÍNEA DEL ERROR:** La línea `COPY --from=builder /app/public ./public` ha sido **completamente eliminada**. Ya no existe.
-2.  **SE AÑADIÓ `RUN mkdir public logs`:** Esta línea **crea las carpetas vacías** que tu aplicación necesita para empezar a trabajar.
-3.  **SE AÑADIÓ `RUN chown -R node:node /app`:** Este es un paso de seguridad y robustez. Le da permiso al usuario `node` (con el que se ejecuta la app) para que pueda escribir archivos dentro de `public` y `logs`.
-
----
-
-### Paso 2: Reconstruye la Imagen (Forzando la actualización)
-
-A veces Docker guarda en caché los pasos anteriores y puede no detectar el cambio correctamente. Para estar 100% seguros de que está usando tu `Dockerfile` nuevo y corregido, vamos a construir la imagen con la opción `--no-cache`.
-
-Abre tu terminal en la raíz del proyecto y ejecuta:
-
-```bash
-docker build --no-cache -t nanimartinez-restaurant-app .
