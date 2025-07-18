@@ -1,0 +1,19 @@
+# Dependencias locales, se instalarán dentro del contenedor
+node_modules
+
+# Archivos de log
+npm-debug.log
+logs/
+
+# Archivos de entorno. ¡Nunca deben ir en la imagen!
+.env
+.env.*
+!.env.example
+
+# Metadatos del sistema de control de versiones
+.git
+.gitignore
+
+# Archivos del sistema operativo
+.DS_Store
+Thumbs.db
