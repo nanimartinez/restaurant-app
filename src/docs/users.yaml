@@ -99,6 +99,7 @@ paths:
           description: Error al procesar la subida de archivos.
 
 components:
+  # FIX: Se fusionó la clave 'schemas' duplicada en una sola.
   schemas:
     User:
       type: object
@@ -144,10 +145,8 @@ components:
         last_connection:
           type: string
           format: date-time
-
-# Las schemas de Restaurant y MenuItem se referencian aquí,
-# pero se definen en sus propios archivos para mantener el orden.
-  schemas:
+    # Las schemas de Restaurant y MenuItem se referencian aquí,
+    # pero se definen en sus propios archivos para mantener el orden.
     Restaurant:
       $ref: './restaurants.yaml#/components/schemas/Restaurant'
     MenuItem:

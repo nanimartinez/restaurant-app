@@ -9,6 +9,7 @@ import menuItemsRouter from "./routers/menuItem.router.js";
 import ordersRouter from "./routers/order.router.js";       
 import restaurantsRouter from "./routers/restaurant.router.js"; 
 import sessionsRouter from "./routers/sessions.router.js";
+import mocksRouter from "./routers/mocks.router.js"; // <-- NUEVO
 
 import cors from "./config/cors.js";
 import middLogg from "./config/logger.js";
@@ -27,9 +28,8 @@ app.use(logger);
 app.use(cors); 
 app.use(middLogg);
 
-// FIX: Servir archivos estáticos desde la carpeta 'public' en la raíz del proyecto
+// Servir archivos estáticos
 app.use(express.static(path.join(__dirname, '..', 'public')));
-
 
 // Swagger
 setupSwagger(app);
@@ -40,5 +40,6 @@ app.use("/api/menu-items", menuItemsRouter);
 app.use("/api/orders", ordersRouter);       
 app.use("/api/restaurants", restaurantsRouter); 
 app.use("/api/sessions", sessionsRouter);
+app.use("/api/mocks", mocksRouter); // <-- NUEVO
 
 export default app;

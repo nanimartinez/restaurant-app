@@ -4,19 +4,18 @@ import dotenv from "dotenv";
 const program = new Command();
 
 program
-  .addOption(new Option("--test <archivo>", "Archivo de test a ejecutar"))
   .addOption(
     new Option("-m, --mode <MODE>", "Modo de ejecución del server")
-      .choices(["prod", "dev"])
+      .choices(["prod", "dev", "test"]) // Añadir 'test' como opción
       .default("dev")
   );
 program.parse();
 
 const mode = program.opts().mode;
 
-// FIX: Usar dotenv para cargar las variables de entorno
+// Cargar variables de entorno según el modo
 dotenv.config({
-  path: mode === "prod" ? "./.env.prod" : "./.env.dev",
+  path: mode === "prod" ? "./.env.prod" : mode === "test" ? "./.env.test" : "./.env.dev",
 });
 
 // Configuración exportada
@@ -24,7 +23,7 @@ const config = {
   MONGO_URI: process.env.MONGO_URI,
   MODE: mode,
   PORT: process.env.PORT,
-  JWT_SECRET_KEY: process.env.JWT_SECRET_KEY, // FIX: Añadir la clave secreta a la configuración
+  JWT_SECRET_KEY: process.env.JWT_SECRET_KEY,
 };
 
 export default config;

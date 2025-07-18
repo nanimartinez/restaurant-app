@@ -6,9 +6,9 @@ const swaggerOptions = {
 definition: {
 openapi: "3.0.0",
 info: {
-title: "API Adoptme",
+title: "API Restaurant App",
 version: "1.0.0",
-description: "API-Rest Adoptme",
+description: "API-Rest para la aplicación de restaurante",
 },
 servers: [
 {
